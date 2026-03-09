@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Military Life — Official Intelligence Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:    #060e1e;
+    --navy2:   #0b1830;
+    --steel:   #122040;
+    --steel2:  #182d52;
+    --gold:    #c9a84c;
+    --gold2:   #f0c96a;
+    --gold3:   #ffe08a;
+    --red:     #b52828;
+    --red2:    #e03030;
+    --white:   #eef2f8;
+    --gray:    #7a8faa;
+    --gray2:   #4a5f7a;
+    --border:  rgba(201,168,76,0.18);
+    --glow:    rgba(201,168,76,0.08);
+    --glow2:   rgba(201,168,76,0.18);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== BACKGROUND LAYERS ===== */
+  #stars-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,168,76,0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: rgba(6,14,30,0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+  }
+
+  .header-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 70px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .logo-emblem {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: pulse-star 3s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse-star {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(201,168,76,0.5)); }
+    50% { filter: drop-shadow(0 0 18px rgba(240,201,106,0.9)); }
+  }
+
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.45rem;
+    color: var(--gold);
+    letter-spacing: 2.5px;
+  }
+  .logo-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    color: var(--gray);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  nav a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 18px; right: 18px;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+  }
+
+  nav a:hover { color: var(--gold2); }
+  nav a:hover::after { transform: scaleX(1); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--gold2);
+    text-transform: uppercase;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 5px 12px;
+  }
+
+  .live-dot {
+    width: 7px; height: 7px;
+    background: #e03030;
+    border-radius: 50%;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 6px #e03030; }
+    50% { opacity: 0.2; box-shadow: none; }
+  }
+
+  #live-time {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.05rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  /* ===== HAMBURGER ===== */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    width: 24px; height: 2px;
+    background: var(--gold);
+    transition: all 0.3s;
+    display: block;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 70px; left: 0; right: 0;
+    background: rgba(6,14,30,0.98);
+    border-bottom: 1px solid var(--border);
+    z-index: 190;
+    padding: 16px 0;
+    backdrop-filter: blur(20px);
+  }
+  .mobile-nav.open { display: block; }
+  .mobile-nav a {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 2rem;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    transition: color 0.15s, padding-left 0.15s;
+  }
+  .mobile-nav a:hover { color: var(--gold); padding-left: 2.5rem; }
+
+  /* ===== TICKER ===== */
+  .ticker-bar {
+    background: linear-gradient(90deg, var(--red) 0%, #8b1515 30%, var(--red) 100%);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .ticker-inner {
+    display: flex;
+    align-items: stretch;
+    height: 38px;
+  }
+
+  .ticker-label {
+    background: #6e0e0e;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.88rem;
+    letter-spacing: 2.5px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    min-width: 150px;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .ticker-label::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 0; bottom: 0;
+    border-left: 10px solid #6e0e0e;
+    border-top: 19px solid transparent;
+    border-bottom: 19px solid transparent;
+  }
+
+  .ticker-scroll { flex: 1; overflow: hidden; position: relative; }
+  .ticker-track {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    animation: scroll-ticker 70s linear infinite;
+    width: max-content;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  .ticker-track span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: #fff;
+    padding: 0 48px;
+    white-space: nowrap;
+  }
+  .ticker-track span::before {
+    content: '◆';
+    margin-right: 14px;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.5rem;
+    vertical-align: middle;
+  }
+
+  @keyframes scroll-ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ===== FEATURES BAR ===== */
+  .features-bar {
+    background: rgba(18,32,64,0.7);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 2rem;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .features-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .features-inner::-webkit-scrollbar { display: none; }
+  .feature-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 4px 20px;
+    border-right: 1px solid var(--border);
+  }
+  .feature-pill:first-child { padding-left: 0; }
+  .feature-pill .icon { font-size: 0.9rem; }
+  .feature-pill strong { color: var(--gold2); font-weight: 700; }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    z-index: 2;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 80px 2rem 60px;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fade-up 0.6s 0.1s ease forwards;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    height: 1px;
+    width: 30px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.8rem, 8vw, 7.5rem);
+    line-height: 0.88;
+    color: var(--white);
+    opacity: 0;
+    animation: fade-up 0.7s 0.2s ease forwards;
+    letter-spacing: 2px;
+  }
+  .hero-headline .accent { color: var(--gold); display: block; }
+  .hero-headline .small-line {
+    font-size: 0.6em;
+    color: var(--gray2);
+    letter-spacing: 6px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .hero-sub {
+    margin-top: 22px;
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.75;
+    max-width: 540px;
+    opacity: 0;
+    animation: fade-up 0.7s 0.35s ease forwards;
+  }
+
+  .hero-cta {
+    margin-top: 36px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fade-up 0.7s 0.5s ease forwards;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--navy);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 15px 34px;
+    border: none;
+    cursor: pointer;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(201,168,76,0.45);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 15px 34px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: background 0.15s, border-color 0.15s;
+    text-decoration: none;
+  }
+  .btn-secondary:hover {
+    background: var(--glow2);
+    border-color: rgba(201,168,76,0.5);
+  }
+
+  /* ===== HERO STATS ===== */
+  .hero-stats {
+    background: linear-gradient(145deg, var(--steel), var(--navy2));
+    border: 1px solid var(--border);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fade-up 0.7s 0.4s ease forwards;
+  }
+  .hero-stats::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold2), transparent);
+  }
+  .hero-stats::after {
+    content: '★';
+    position: absolute;
+    bottom: -30px; right: -20px;
+    font-size: 10rem;
+    color: rgba(201,168,76,0.03);
+    font-family: 'Bebas Neue', sans-serif;
+    pointer-events: none;
+  }
+
+  .stats-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .stats-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--gold2);
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    color: var(--gray);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 2;
+  }
+  .divider-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), var(--gold), var(--border), transparent);
+  }
+
+  /* ===== SECTION ===== */
+  .section {
+    position: relative;
+    z-index: 2;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 64px 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 3px;
+    color: var(--white);
+    line-height: 1;
+  }
+  .section-title span { color: var(--gold); }
+  .section-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gray2);
+  }
+
+  /* ===== BRANCHES ===== */
+  .branches-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+
+  .branch-card {
+    background: linear-gradient(145deg, var(--steel), var(--navy2));
+    border: 1px solid var(--border);
+    padding: 28px 16px 22px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .branch-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .branch-card:hover {
+    border-color: rgba(201,168,76,0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(201,168,76,0.08);
+  }
+  .branch-card:hover::before { transform: scaleX(1); }
+
+  .branch-icon { font-size: 2.4rem; line-height: 1; }
+  .branch-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray);
+    transition: color 0.2s;
+  }
+  .branch-card:hover .branch-name { color: var(--gold2); }
+
+  /* ===== CATEGORY TABS ===== */
+  .cat-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray);
+    padding: 12px 22px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .cat-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .cat-tab:hover:not(.active) { color: var(--white); }
+
+  /* ===== NEWS GRID ===== */
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+  }
+
+  .news-card {
+    background: linear-gradient(145deg, var(--steel), var(--navy2));
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .news-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.35s;
+  }
+  .news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(201,168,76,0.06);
+    border-color: rgba(201,168,76,0.35);
+  }
+  .news-card:hover::before { transform: scaleX(1); }
+
+  .card-img-placeholder {
+    width: 100%;
+    height: 175px;
+    background: linear-gradient(135deg, var(--steel2) 0%, var(--navy) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-img-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(6,14,30,0.5) 0%, transparent 60%);
+  }
+
+  .card-body {
+    padding: 22px 20px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-source {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-source::before {
+    content: '';
+    display: inline-block;
+    width: 14px; height: 2px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--white);
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--gray);
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--gray2);
+    text-transform: uppercase;
+    padding-top: 14px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+  .card-link {
+    color: var(--gold);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: gap 0.15s, color 0.15s;
+    font-weight: 700;
+  }
+  .card-link:hover { gap: 9px; color: var(--gold2); }
+
+  /* ===== SKELETON ===== */
+  .loading-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+  }
+  .skeleton {
+    background: linear-gradient(145deg, var(--steel), var(--navy2));
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .skeleton-img { height: 175px; background: var(--navy2); position: relative; overflow: hidden; }
+  .skeleton-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.04) 50%, transparent 100%);
+    animation: shimmer 1.6s ease-in-out infinite;
+    background-size: 200% 100%;
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .skeleton-body { padding: 22px 20px; }
+  .skeleton-line {
+    height: 11px;
+    background: var(--navy2);
+    border-radius: 2px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .skeleton-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.05) 50%, transparent 100%);
+    animation: shimmer 1.6s ease-in-out infinite;
+    background-size: 200% 100%;
+  }
+  .skeleton-line.short { width: 55%; }
+  .skeleton-line.medium { width: 80%; }
+
+  /* ===== PRESIDENTIAL SECTION ===== */
+  .presidential-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+
+  .pres-card {
+    background: linear-gradient(145deg, var(--steel), var(--navy2));
+    border: 1px solid var(--border);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .pres-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .pres-card::after {
+    content: '★';
+    position: absolute;
+    bottom: -25px; right: -10px;
+    font-size: 9rem;
+    color: rgba(201,168,76,0.03);
+    pointer-events: none;
+    line-height: 1;
+  }
+  .pres-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    border-color: rgba(201,168,76,0.3);
+  }
+  .pres-card:hover::before { opacity: 1; }
+
+  /* ===== BADGE ===== */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    background: var(--red);
+    color: #fff;
+  }
+  .badge.blue { background: #1a4a8a; }
+  .badge.gold { background: var(--gold); color: var(--navy); }
+  .badge.green { background: #1a6a3a; }
+
+  /* ===== AI PANEL ===== */
+  .ai-panel {
+    background: linear-gradient(145deg, var(--steel), var(--navy2));
+    border: 1px solid var(--border);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--red2), var(--gold2), var(--gold));
+  }
+  .ai-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ai-emblem {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    flex-shrink: 0;
+    animation: pulse-star 3s ease-in-out infinite;
+  }
+  .ai-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .ai-subtitle {
+    font-size: 0.78rem;
+    color: var(--gray);
+    margin-top: 3px;
+  }
+  .ai-status {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #4caf7a;
+  }
+  .status-dot {
+    width: 7px; height: 7px;
+    background: #4caf7a;
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+    box-shadow: 0 0 6px #4caf7a;
+  }
+
+  .ai-input-row {
+    display: flex;
+    gap: 10px;
+  }
+  .ai-input {
+    flex: 1;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    padding: 15px 20px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .ai-input:focus {
+    border-color: rgba(201,168,76,0.6);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.06);
+  }
+  .ai-input::placeholder { color: var(--gray2); }
+
+  .ai-submit {
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--navy);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 0.83rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 15px 26px;
+    border: none;
+    cursor: pointer;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: opacity 0.15s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .ai-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+  .ai-submit:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+  .ai-response {
+    margin-top: 18px;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    padding: 22px;
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--white);
+    display: none;
+    animation: fade-up 0.3s ease;
+  }
+  .ai-response.active { display: block; }
+  .ai-response p { margin-bottom: 12px; }
+  .ai-response p:last-child { margin-bottom: 0; }
+
+  .ai-thinking {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .thinking-dots { display: flex; gap: 4px; }
+  .thinking-dots span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: dot-bounce 1.1s ease-in-out infinite;
+  }
+  .thinking-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .thinking-dots span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes dot-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  .quick-asks {
+    margin-top: 18px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .quick-btn {
+    background: rgba(6,14,30,0.8);
+    border: 1px solid var(--border);
+    color: var(--gray);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .quick-btn:hover {
+    color: var(--gold2);
+    border-color: rgba(201,168,76,0.45);
+    background: var(--glow);
+  }
+
+  /* ===== CONNECT ===== */
+  .connect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+
+  .connect-card {
+    background: linear-gradient(145deg, var(--steel), var(--navy2));
+    border: 1px solid var(--border);
+    padding: 44px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .connect-card:hover {
+    border-color: rgba(201,168,76,0.35);
+    transform: translateY(-3px);
+  }
+  .connect-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .contact-card {
+    background: linear-gradient(145deg, var(--steel), var(--navy2));
+    border: 1px solid var(--border);
+    padding: 44px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+  }
+  .contact-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .contact-icon { font-size: 1.5rem; flex-shrink: 0; line-height: 1.3; }
+  .contact-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 3px;
+  }
+  .contact-value {
+    font-size: 0.9rem;
+    color: var(--white);
+  }
+  .contact-value a { color: var(--gold); text-decoration: none; }
+  .contact-value a:hover { color: var(--gold2); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    position: relative;
+    z-index: 2;
+    background: var(--navy2);
+    border-top: 1px solid var(--border);
+    padding: 56px 2rem 32px;
+    margin-top: 60px;
+  }
+  .footer-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 44px;
+  }
+  .footer-brand p {
+    color: var(--gray);
+    font-size: 0.84rem;
+    line-height: 1.75;
+    margin-top: 18px;
+    max-width: 280px;
+  }
+  .footer-col h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-col a {
+    display: block;
+    color: var(--gray);
+    font-size: 0.84rem;
+    text-decoration: none;
+    margin-bottom: 9px;
+    transition: color 0.15s, padding-left 0.15s;
+    font-family: 'Barlow', sans-serif;
+  }
+  .footer-col a:hover { color: var(--gold2); padding-left: 6px; }
+
+  .footer-bottom {
+    max-width: 1440px;
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--gray2);
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .footer-flag { font-size: 1rem; }
+
+  /* ===== SCROLL TO TOP ===== */
+  #scrollTop {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 46px; height: 46px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--navy);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    z-index: 300;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #scrollTop.visible { opacity: 1; transform: translateY(0); }
+  #scrollTop:hover { opacity: 0.85; }
+
+  /* ===== ERROR STATE ===== */
+  .error-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--gray);
+    border: 1px solid var(--border);
+    background: var(--steel);
+  }
+  .error-state p { font-family: 'Barlow Condensed'; font-size: 0.95rem; letter-spacing: 1px; }
+
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== VETERAN RESOURCES ===== */
+  .resources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .resource-card { background: linear-gradient(145deg, var(--steel), var(--navy2)); border: 1px solid var(--border); padding: 24px; text-decoration: none; display: flex; flex-direction: column; gap: 10px; transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
+  .resource-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); transform: scaleX(0); transition: transform 0.3s; }
+  .resource-card:hover { transform: translateY(-3px); border-color: rgba(201,168,76,0.4); }
+  .resource-card:hover::before { transform: scaleX(1); }
+  .resource-icon { font-size: 1.8rem; line-height: 1; }
+  .resource-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 1px; color: var(--gold); text-transform: uppercase; }
+  .resource-desc { font-size: 0.78rem; color: var(--gray); line-height: 1.5; }
+  .resource-link { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray2); margin-top: auto; }
+
+  /* ===== SCOOPZ LIVE FEED ===== */
+  .scoopz-panel { background: linear-gradient(145deg, var(--steel), var(--navy2)); border: 1px solid var(--border); position: relative; overflow: hidden; }
+  .scoopz-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), #e03030, var(--gold2), var(--gold)); }
+  .scoopz-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 28px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 14px; }
+  .scoopz-identity { display: flex; align-items: center; gap: 14px; }
+  .scoopz-avatar { width: 52px; height: 52px; background: linear-gradient(135deg, var(--gold), var(--gold2)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; box-shadow: 0 0 20px rgba(201,168,76,0.3); }
+  .scoopz-handle { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold); letter-spacing: 2px; }
+  .scoopz-platform { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+  .scoopz-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .scoopz-refresh-status { display: flex; align-items: center; gap: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #4caf7a; }
+  .scoopz-refresh-btn { background: transparent; border: 1px solid var(--border); color: var(--gold); font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 16px; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+  .scoopz-refresh-btn:hover { background: var(--glow); border-color: rgba(201,168,76,0.4); }
+  .scoopz-refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .scoopz-stats { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+  .scoopz-stat { flex: 1; padding: 18px 24px; border-right: 1px solid var(--border); text-align: center; }
+  .scoopz-stat:last-child { border-right: none; }
+  .scoopz-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--gold2); letter-spacing: 1px; line-height: 1; }
+  .scoopz-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 3px; }
+  .scoopz-feed { padding: 24px 28px; min-height: 200px; display: flex; flex-direction: column; gap: 0; }
+  .scoopz-loading { display: flex; align-items: center; gap: 14px; justify-content: center; padding: 40px 0; }
+  .scoopz-post { padding: 18px 0; border-bottom: 1px solid rgba(201,168,76,0.07); display: flex; gap: 16px; align-items: flex-start; cursor: pointer; transition: background 0.15s; border-radius: 2px; }
+  .scoopz-post:last-child { border-bottom: none; }
+  .scoopz-post:hover { background: rgba(201,168,76,0.03); }
+  .scoopz-post-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .scoopz-post-content { flex: 1; min-width: 0; }
+  .scoopz-post-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--white); line-height: 1.3; margin-bottom: 5px; }
+  .scoopz-post-desc { font-size: 0.78rem; color: var(--gray); line-height: 1.5; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .scoopz-post-meta { display: flex; align-items: center; gap: 14px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray2); }
+  .scoopz-post-meta .likes { color: var(--gold); }
+  .scoopz-post-tag { background: rgba(201,168,76,0.1); color: var(--gold); font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 8px; border: 1px solid rgba(201,168,76,0.2); }
+  .scoopz-footer { padding: 16px 28px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: rgba(6,14,30,0.3); flex-wrap: wrap; gap: 8px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-stats { display: none; }
+    .branches-grid { grid-template-columns: repeat(3, 1fr); }
+    .presidential-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    nav { display: none; }
+    .hamburger { display: flex; }
+  }
+
+  @media (max-width: 700px) {
+    .branches-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+    .hero { padding: 44px 1.25rem 40px; }
+    .section { padding: 44px 1.25rem; }
+    .connect-grid { grid-template-columns: 1fr; }
+    .presidential-grid { grid-template-columns: 1fr; }
+    .header-inner { padding: 0 1.25rem; }
+    .footer-inner { padding: 0 1.25rem; }
+    footer { padding: 40px 1.25rem 24px; }
+    #live-time { display: none; }
+    .ai-panel { padding: 24px 20px; }
+    .scoopz-header { flex-direction: column; align-items: flex-start; }
+    .scoopz-stat { padding: 14px 12px; }
+    .scoopz-stat-num { font-size: 1.4rem; }
+    .scoopz-feed { padding: 16px; }
+    .scoopz-footer { flex-direction: column; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-emblem"></div>
+      <div class="logo-text">
+        <span class="logo-title">US Military Life</span>
+        <span class="logo-sub">@usmilitarylife · Camp Pendleton, CA</span>
+      </div>
+    </a>
+
+    <nav>
+      <a href="#branches">Branches</a>
+      <a href="#news">Intel Feed</a>
+      <a href="#presidential">Presidential</a>
+      <a href="#intel">AI Analyst</a>
+      <a href="#veterans">Veterans</a>
+      <a href="#connect">Connect</a>
+    </nav>
+
+    <div class="header-right">
+      <div id="live-time"></div>
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        Live Updates
+      </div>
+      <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#branches" onclick="closeMobileNav()">The Six Branches</a>
+  <a href="#news" onclick="closeMobileNav()">Intel Feed</a>
+  <a href="#presidential" onclick="closeMobileNav()">Presidential Command</a>
+  <a href="#intel" onclick="closeMobileNav()">AI Military Analyst</a>
+  <a href="#veterans" onclick="closeMobileNav()">Veteran Resources</a>
+  <a href="#connect" onclick="closeMobileNav()">Connect / Contact</a>
+</div>
+
+<!-- BREAKING NEWS TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-inner">
+    <div class="ticker-label">⚡ BREAKING</div>
+    <div class="ticker-scroll">
+      <div class="ticker-track" id="ticker-track">
+        <span>Loading latest military intelligence...</span>
+        <span>All six US Armed Forces branches covered 24/7</span>
+        <span>US Military Life — Veteran Operated · Patriot Powered</span>
+        <span>Loading latest military intelligence...</span>
+        <span>All six US Armed Forces branches covered 24/7</span>
+        <span>US Military Life — Veteran Operated · Patriot Powered</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES BAR -->
+<div class="features-bar">
+  <div class="features-inner">
+    <div class="feature-pill"><span class="icon">🛡️</span> Official DOD Coverage</div>
+    <div class="feature-pill"><span class="icon">🌐</span> Real-Time Intelligence</div>
+    <div class="feature-pill"><span class="icon">🤖</span> AI Military Analyst</div>
+    <div class="feature-pill"><span class="icon">🇺🇸</span> All 6 Branches</div>
+    <div class="feature-pill"><span class="icon">📡</span> White House Briefings</div>
+    <div class="feature-pill"><span class="icon">⭐</span> <strong>15.4K</strong> Followers</div>
+    <div class="feature-pill"><span class="icon">🎖️</span> Veteran Operated</div>
+    <div class="feature-pill"><span class="icon">✅</span> Scoopz Verified</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">America's Armed Forces Network</div>
+    <h1 class="hero-headline">
+      Defend.<span class="accent">Inform.</span>
+      <span class="small-line">Honor Those Who Serve</span>
+    </h1>
+    <p class="hero-sub">
+      The definitive source for US Military news, presidential defense briefings, 
+      and live intelligence from all six branches of the Armed Forces. 
+      Operated by veterans. Built for patriots.
+    </p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="document.getElementById('news').scrollIntoView({behavior:'smooth'})">
+        ⚡ Read Latest Intel
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('intel').scrollIntoView({behavior:'smooth'})">
+        🤖 AI Analyst
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stats-title">Channel Intelligence</div>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-num">15.4K</div>
+        <div class="stat-label">Scoopz<br>Followers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">140+</div>
+        <div class="stat-label">Active<br>Posts</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1.2M+</div>
+        <div class="stat-label">Total<br>Views</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">26</div>
+        <div class="stat-label">Military<br>Circles</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BRANCHES -->
+<div class="divider"><div class="divider-line"></div></div>
+<div class="section reveal" id="branches">
+  <div class="section-header">
+    <h2 class="section-title">The Six <span>Branches</span></h2>
+    <span class="section-tag">Armed Forces of the United States</span>
+  </div>
+  <div class="branches-grid">
+    <a class="branch-card" href="https://www.army.mil" target="_blank" rel="noopener">
+      <span class="branch-icon">🪖</span>
+      <div class="branch-name">US Army</div>
+    </a>
+    <a class="branch-card" href="https://www.navy.mil" target="_blank" rel="noopener">
+      <span class="branch-icon">⚓</span>
+      <div class="branch-name">US Navy</div>
+    </a>
+    <a class="branch-card" href="https://www.af.mil" target="_blank" rel="noopener">
+      <span class="branch-icon">✈️</span>
+      <div class="branch-name">Air Force</div>
+    </a>
+    <a class="branch-card" href="https://www.marines.mil" target="_blank" rel="noopener">
+      <span class="branch-icon">🦅</span>
+      <div class="branch-name">Marines</div>
+    </a>
+    <a class="branch-card" href="https://www.uscg.mil" target="_blank" rel="noopener">
+      <span class="branch-icon">🚢</span>
+      <div class="branch-name">Coast Guard</div>
+    </a>
+    <a class="branch-card" href="https://www.spaceforce.mil" target="_blank" rel="noopener">
+      <span class="branch-icon">🚀</span>
+      <div class="branch-name">Space Force</div>
+    </a>
+  </div>
+</div>
+
+<!-- NEWS SECTION -->
+<div class="divider"><div class="divider-line"></div></div>
+<div class="section reveal" id="news">
+  <div class="section-header">
+    <h2 class="section-title">Live <span>Military Intel</span></h2>
+    <span class="section-tag">Updated in Real-Time</span>
+  </div>
+
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="switchCategory('all', this)">All Forces</button>
+    <button class="cat-tab" onclick="switchCategory('army', this)">Army</button>
+    <button class="cat-tab" onclick="switchCategory('navy', this)">Navy</button>
+    <button class="cat-tab" onclick="switchCategory('air force', this)">Air Force</button>
+    <button class="cat-tab" onclick="switchCategory('marines', this)">Marines</button>
+    <button class="cat-tab" onclick="switchCategory('space force', this)">Space Force</button>
+    <button class="cat-tab" onclick="switchCategory('defense', this)">Defense</button>
+    <button class="cat-tab" onclick="switchCategory('veterans', this)">Veterans</button>
+  </div>
+
+  <div id="news-container">
+    <div class="loading-grid">
+        <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+        <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+        <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+        <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+        <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+        <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRESIDENTIAL SECTION -->
+<div class="divider"><div class="divider-line"></div></div>
+<div class="section reveal" id="presidential">
+  <div class="section-header">
+    <h2 class="section-title">Presidential <span>Command</span></h2>
+    <span class="section-tag">White House · Commander in Chief</span>
+  </div>
+  <div id="presidential-container">
+    <div class="loading-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+        <div class="skeleton"><div class="skeleton-body" style="padding:30px"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short" style="margin-top:20px"></div></div></div>
+        <div class="skeleton"><div class="skeleton-body" style="padding:30px"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short" style="margin-top:20px"></div></div></div>
+        <div class="skeleton"><div class="skeleton-body" style="padding:30px"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short" style="margin-top:20px"></div></div></div>
+        <div class="skeleton"><div class="skeleton-body" style="padding:30px"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short" style="margin-top:20px"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- AI ANALYST SECTION -->
+<div class="divider"><div class="divider-line"></div></div>
+<div class="section reveal" id="intel">
+  <div class="section-header">
+    <h2 class="section-title">AI <span>Military Analyst</span></h2>
+    <span class="section-tag">Powered by Claude Intelligence</span>
+  </div>
+  <div class="ai-panel">
+    <div class="ai-header">
+      <div class="ai-emblem"></div>
+      <div>
+        <div class="ai-title">Intel Analyst — Ask Anything</div>
+        <div class="ai-subtitle">Military history · Tactics · Current events · Branch comparisons · Veteran resources</div>
+      </div>
+      <div class="ai-status">
+        <div class="status-dot"></div>
+        Systems Online
+      </div>
+    </div>
+
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-question" type="text"
+        placeholder="Ask: What does DEVGRU do? | How large is the US Army? | Explain military ranks..."
+        onkeydown="if(event.key==='Enter') askAI()">
+      <button class="ai-submit" id="ai-btn" onclick="askAI()">Analyze ▶</button>
+    </div>
+    <div class="ai-response" id="ai-response"></div>
+
+    <div class="quick-asks">
+      <button class="quick-btn" onclick="quickAsk('What are the latest US military operations and deployments in 2026?')">Latest Operations</button>
+      <button class="quick-btn" onclick="quickAsk('Explain US military ranks from E-1 to O-10 across all branches')">Military Ranks</button>
+      <button class="quick-btn" onclick="quickAsk('What are current US veteran benefits and how can veterans claim them?')">Veteran Benefits</button>
+      <button class="quick-btn" onclick="quickAsk('How does current US military power compare to China and Russia?')">Global Power</button>
+      <button class="quick-btn" onclick="quickAsk('What is PTSD and what mental health resources exist for military veterans?')">Veteran Support</button>
+      <button class="quick-btn" onclick="quickAsk('What is the US Space Force doing right now in 2026?')">Space Force</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- VETERAN RESOURCES SECTION -->
+<div class="divider"><div class="divider-line"></div></div>
+<div class="section reveal" id="veterans">
+  <div class="section-header">
+    <h2 class="section-title">Veteran <span>Resources</span></h2>
+    <span class="section-tag">Support For Those Who Served</span>
+  </div>
+  <div class="resources-grid">
+    <a class="resource-card" href="https://www.va.gov" target="_blank" rel="noopener">
+      <span class="resource-icon">🏥</span>
+      <div class="resource-name">VA Healthcare</div>
+      <div class="resource-desc">Access healthcare, mental health services, and medical benefits for eligible veterans.</div>
+      <div class="resource-link">va.gov →</div>
+    </a>
+    <a class="resource-card" href="https://www.benefits.va.gov" target="_blank" rel="noopener">
+      <span class="resource-icon">💰</span>
+      <div class="resource-name">VA Benefits</div>
+      <div class="resource-desc">Disability compensation, education (GI Bill), home loans, and life insurance programs.</div>
+      <div class="resource-link">benefits.va.gov →</div>
+    </a>
+    <a class="resource-card" href="https://www.vets.gov" target="_blank" rel="noopener">
+      <span class="resource-icon">📋</span>
+      <div class="resource-name">Claims & Appeals</div>
+      <div class="resource-desc">File disability claims, check status, and manage your VA benefits online.</div>
+      <div class="resource-link">vets.gov →</div>
+    </a>
+    <a class="resource-card" href="https://www.mentalhealth.va.gov" target="_blank" rel="noopener">
+      <span class="resource-icon">🧠</span>
+      <div class="resource-name">Mental Health</div>
+      <div class="resource-desc">PTSD resources, crisis support, and mental wellness programs for veterans and families.</div>
+      <div class="resource-link">mentalhealth.va.gov →</div>
+    </a>
+    <a class="resource-card" href="https://www.militaryonesource.mil" target="_blank" rel="noopener">
+      <span class="resource-icon">🤝</span>
+      <div class="resource-name">Military OneSource</div>
+      <div class="resource-desc">24/7 support for service members and families — finances, legal, and deployment assistance.</div>
+      <div class="resource-link">militaryonesource.mil →</div>
+    </a>
+    <a class="resource-card" href="https://www.veteranscrisisline.net" target="_blank" rel="noopener">
+      <span class="resource-icon">🆘</span>
+      <div class="resource-name">Veterans Crisis Line</div>
+      <div class="resource-desc">Call 988 then Press 1, or text 838255. Confidential crisis support available 24/7.</div>
+      <div class="resource-link" style="color:var(--red2);">Available 24/7 →</div>
+    </a>
+  </div>
+</div>
+
+<!-- CONNECT SECTION -->
+<div class="divider"><div class="divider-line"></div></div>
+<div class="section reveal" id="connect">
+  <div class="section-header">
+    <h2 class="section-title">Join The <span>Mission</span></h2>
+    <span class="section-tag">Follow @usmilitarylife on Scoopz</span>
+  </div>
+
+  <!-- SCOOPZ LIVE FEED -->
+  <div class="scoopz-panel">
+    <div class="scoopz-header">
+      <div class="scoopz-identity">
+        <div class="scoopz-avatar">🇺🇸</div>
+        <div>
+          <div class="scoopz-handle">@usmilitarylife</div>
+          <div class="scoopz-platform">Scoopz · US Military Life</div>
+        </div>
+      </div>
+      <div class="scoopz-actions">
+        <div class="scoopz-refresh-status" id="scoopz-status">
+          <div class="live-dot"></div>
+          <span id="scoopz-status-text">Live Feed</span>
+        </div>
+        <button class="scoopz-refresh-btn" onclick="refreshScoopzFeed()" id="scoopz-refresh-btn">↻ Refresh</button>
+        <a href="https://thescoopz.com/@usmilitarylife" target="_blank" rel="noopener" class="btn-primary" style="padding:10px 22px;font-size:0.75rem;">
+          🇺🇸 Open Scoopz Profile
+        </a>
+      </div>
+    </div>
+
+    <div class="scoopz-stats" id="scoopz-stats">
+      <div class="scoopz-stat">
+        <div class="scoopz-stat-num" id="stat-followers">15.4K</div>
+        <div class="scoopz-stat-label">Followers</div>
+      </div>
+      <div class="scoopz-stat">
+        <div class="scoopz-stat-num" id="stat-posts">140+</div>
+        <div class="scoopz-stat-label">Posts</div>
+      </div>
+      <div class="scoopz-stat">
+        <div class="scoopz-stat-num" id="stat-views">1.2M+</div>
+        <div class="scoopz-stat-label">Total Views</div>
+      </div>
+      <div class="scoopz-stat">
+        <div class="scoopz-stat-num" id="stat-circles">26</div>
+        <div class="scoopz-stat-label">Circles</div>
+      </div>
+    </div>
+
+    <div class="scoopz-feed" id="scoopz-feed">
+      <div class="scoopz-loading">
+        <div class="thinking-dots"><span></span><span></span><span></span></div>
+        <span style="font-family:'Barlow Condensed';letter-spacing:2px;font-size:0.8rem;text-transform:uppercase;color:var(--gold);">Loading Latest Posts...</span>
+      </div>
+    </div>
+
+    <div class="scoopz-footer">
+      <span style="font-size:0.72rem;color:var(--gray2);font-family:'Barlow Condensed';letter-spacing:1px;">Auto-refreshes every 5 minutes · Last updated: <span id="scoopz-last-updated">—</span></span>
+      <a href="https://thescoopz.com/@usmilitarylife" target="_blank" rel="noopener" style="font-family:'Barlow Condensed';font-size:0.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);text-decoration:none;">View Full Profile →</a>
+    </div>
+  </div>
+
+  <!-- CONTACT CARD -->
+  <div class="connect-grid" style="margin-top:22px;">
+    <div class="connect-card">
+      <div style="font-size:3.2rem;margin-bottom:18px;line-height:1;">📱</div>
+      <div style="font-family:'Bebas Neue';font-size:1.8rem;color:var(--gold);letter-spacing:3px;margin-bottom:14px;line-height:1;">Download Scoopz</div>
+      <p style="font-size:0.88rem;color:var(--gray);line-height:1.75;margin-bottom:28px;max-width:320px;margin-left:auto;margin-right:auto;">Follow @usmilitarylife for daily military content, breaking news, and exclusive access to US Armed Forces life. Veteran-operated and patriot-powered.</p>
+      <a href="https://thescoopz.com/@usmilitarylife" target="_blank" rel="noopener" class="btn-primary">
+        🇺🇸 Follow @usmilitarylife
+      </a>
+    </div>
+    <div class="contact-card">
+      <div style="font-family:'Bebas Neue';font-size:1.6rem;color:var(--gold);letter-spacing:2.5px;margin-bottom:24px;line-height:1;">Contact Intelligence</div>
+      <div class="contact-row">
+        <span class="contact-icon">✉️</span>
+        <div>
+          <div class="contact-label">Media &amp; Inquiries</div>
+          <div class="contact-value"><a href="mailto:TheUSMilitaryLife@protonmail.com">TheUSMilitaryLife@protonmail.com</a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <span class="contact-icon">📍</span>
+        <div>
+          <div class="contact-label">Base Location</div>
+          <div class="contact-value">Camp Pendleton South, CA</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <span class="contact-icon">🔗</span>
+        <div>
+          <div class="contact-label">Official US Resource</div>
+          <div class="contact-value"><a href="https://usa.gov" target="_blank" rel="noopener">usa.gov</a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <span class="contact-icon">🏛️</span>
+        <div>
+          <div class="contact-label">Pentagon</div>
+          <div class="contact-value"><a href="https://www.defense.gov" target="_blank" rel="noopener">defense.gov</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-emblem"></div>
+        <div class="logo-text">
+          <span class="logo-title">US Military Life</span>
+          <span class="logo-sub">The Definitive Source</span>
+        </div>
+      </a>
+      <p>Your premier destination for US Armed Forces news, presidential defense updates, and real-time military intelligence. Veteran-operated and proudly serving 15K+ patriots daily.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Armed Forces</h4>
+      <a href="https://www.army.mil" target="_blank" rel="noopener">US Army</a>
+      <a href="https://www.navy.mil" target="_blank" rel="noopener">US Navy</a>
+      <a href="https://www.af.mil" target="_blank" rel="noopener">Air Force</a>
+      <a href="https://www.marines.mil" target="_blank" rel="noopener">Marines</a>
+      <a href="https://www.uscg.mil" target="_blank" rel="noopener">Coast Guard</a>
+      <a href="https://www.spaceforce.mil" target="_blank" rel="noopener">Space Force</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="https://www.defense.gov" target="_blank" rel="noopener">Pentagon</a>
+      <a href="https://www.whitehouse.gov" target="_blank" rel="noopener">White House</a>
+      <a href="https://www.va.gov" target="_blank" rel="noopener">Veterans Affairs</a>
+      <a href="https://www.nationalguard.mil" target="_blank" rel="noopener">National Guard</a>
+      <a href="https://www.militarytimes.com" target="_blank" rel="noopener">Military Times</a>
+      <a href="https://www.defense.gov/News" target="_blank" rel="noopener">DOD News</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow & Contact</h4>
+      <a href="https://thescoopz.com/@usmilitarylife" target="_blank" rel="noopener">Scoopz @usmilitarylife</a>
+      <a href="mailto:TheUSMilitaryLife@protonmail.com">Email Us</a>
+      <a href="https://usa.gov" target="_blank" rel="noopener">usa.gov</a>
+      <a href="https://www.va.gov" target="_blank" rel="noopener">VA Benefits</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 US Military Life · @usmilitarylife · Camp Pendleton South, CA</span>
+    <span class="footer-flag">🇺🇸 FREEDOM IS NOT FREE</span>
+  </div>
+</footer>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">▲</button>
+
+<script>
+// ===== STARS CANVAS =====
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function initStars() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = Array.from({length: 200}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.4 + 0.2,
+    a: Math.random() * Math.PI * 2,
+    speed: Math.random() * 0.004 + 0.001,
+    twinkle: Math.random() * 0.4 + 0.2
+  }));
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.a += s.speed;
+    const opacity = s.twinkle + Math.sin(s.a) * 0.25;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${Math.max(0, Math.min(1, opacity))})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+initStars();
+drawStars();
+window.addEventListener('resize', initStars);
+
+// ===== LIVE CLOCK =====
+function updateClock() {
+  const now = new Date();
+  const el = document.getElementById('live-time');
+  if (el) {
+    el.textContent = now.toLocaleTimeString('en-US', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short'
+    });
+  }
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ===== SCROLL TO TOP =====
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 350) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+});
+
+// ===== MOBILE NAV =====
+function toggleNav() {
+  const nav = document.getElementById('mobile-nav');
+  const ham = document.getElementById('hamburger');
+  nav.classList.toggle('open');
+  ham.classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ===== BUILD SKELETON =====
+function buildSkeleton(count, gridStyle) {
+  var s = '<div class="loading-grid"' + (gridStyle ? ' style="' + gridStyle + '"' : '') + '>';
+  for (var i = 0; i < count; i++) {
+    s += '<div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>';
+  }
+  return s + '</div>';
+}
+
+// ===== NEWS FETCHING =====
+let currentCategory = 'all';
+
+async function fetchMilitaryNews(category = 'all') {
+  const container = document.getElementById('news-container');
+  container.innerHTML = buildSkeleton(6);
+
+  const categoryPrompt = category === 'all'
+    ? 'all branches of the US military — Army, Navy, Air Force, Marines, Coast Guard, Space Force'
+    : `the US ${category}`;
+
+  try {
+    const response = await fetch("/api/claude", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 2000,
+        tools: [{ type: "web_search_20250305", name: "web_search" }],
+        system: `You are a military news aggregator for US Military Life. Today's date is ${new Date().toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'})}. Use web search to find the LATEST real breaking news from the past 7 days. After searching, return ONLY a valid JSON array (no markdown, no backticks, no explanation) of exactly 6 news article objects with these fields: title (string, the real headline), source (string, the real publication name), summary (string, 2-sentence factual summary), category (string), date (string, the real publish date), url (string, the real article URL), emoji (single relevant emoji). Use real current headlines — not fabricated ones. Return the JSON array only.`,
+        messages: [{ role: "user", content: `Search for the latest breaking US military and defense news about ${categoryPrompt} from the past week. Use web search, then return the 6 most important stories as a JSON array only.` }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content.map(i => i.text || '').join('');
+    let articles;
+    try {
+      articles = JSON.parse(text.replace(/```json|```/g,'').trim());
+    } catch(e) {
+      const match = text.match(/\[[\s\S]*\]/);
+      articles = match ? JSON.parse(match[0]) : [];
+    }
+    renderNews(articles);
+  } catch(e) {
+    container.innerHTML = `<div class="error-state"><p style="color:var(--gold);margin-bottom:8px;">⚠ Intelligence Feed Temporarily Unavailable</p><p>Check back shortly for updated military intelligence.</p></div>`;
+  }
+}
+
+function renderNews(articles) {
+  const container = document.getElementById('news-container');
+  if (!articles || !articles.length) {
+    container.innerHTML = `<div class="error-state"><p>No articles found for this category. Try another branch.</p></div>`;
+    return;
+  }
+  container.innerHTML = `<div class="news-grid">${articles.map(a => `
+    <div class="news-card" onclick="window.open('${(a.url||'#').replace(/'/g,"\\'")}','_blank')">
+      <div class="card-img-placeholder">${a.emoji || '🪖'}</div>
+      <div class="card-body">
+        <div class="card-source">${a.source || 'Military News'}</div>
+        <div class="card-title">${a.title || ''}</div>
+        <div class="card-desc">${a.summary || ''}</div>
+        <div class="card-footer">
+          <span>${a.date || 'Recent'}</span>
+          <a class="card-link" href="${a.url || '#'}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Read More →</a>
+        </div>
+      </div>
+    </div>`).join('')}</div>`;
+
+  // Update ticker
+  const headlines = articles.map(a => a.title).filter(Boolean);
+  const track = document.getElementById('ticker-track');
+  const doubled = [...headlines, ...headlines];
+  track.innerHTML = doubled.map(h => `<span>${h}</span>`).join('');
+}
+
+function switchCategory(cat, btn) {
+  currentCategory = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  fetchMilitaryNews(cat);
+}
+
+// ===== PRESIDENTIAL NEWS =====
+async function fetchPresidentialNews() {
+  const container = document.getElementById('presidential-container');
+  container.innerHTML = buildSkeleton(4, 'grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));');
+  try {
+    const response = await fetch("/api/claude", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        tools: [{ type: "web_search_20250305", name: "web_search" }],
+        system: `You are a White House defense briefing system. Today's date is ${new Date().toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'})}. Use web search to find real, current news from the past 7 days. Then return ONLY a valid JSON array (no markdown, no backticks) of exactly 4 presidential/defense policy news items. Each object must have: title (string, real headline), summary (string, 2 sentences), date (string, real publish date), type (one of: Executive Order, Press Briefing, Defense Policy, Commander in Chief, National Security), source (string, real source name), url (string, real URL), emoji (one emoji). Return JSON array only.`,
+        messages: [{ role: "user", content: "Search the web for the latest presidential defense, military policy, and national security news from the past week. Return 4 items as a JSON array only." }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content.map(i => i.text || '').join('');
+    let articles;
+    try {
+      articles = JSON.parse(text.replace(/```json|```/g,'').trim());
+    } catch(e) {
+      const match = text.match(/\[[\s\S]*\]/);
+      articles = match ? JSON.parse(match[0]) : [];
+    }
+    renderPresidential(articles);
+  } catch(e) {
+    container.innerHTML = `<div class="error-state"><p>Presidential briefings temporarily unavailable.</p></div>`;
+  }
+}
+
+function renderPresidential(articles) {
+  const container = document.getElementById('presidential-container');
+  if (!articles || !articles.length) return;
+  container.innerHTML = `<div class="presidential-grid">${articles.map(a => {
+    const badgeClass = a.type === 'Executive Order' ? 'red' : a.type === 'Defense Policy' ? 'blue' : a.type === 'National Security' ? 'green' : 'gold';
+    return `
+    <div class="pres-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+        <span style="font-size:1.9rem;line-height:1;">${a.emoji || '🇺🇸'}</span>
+        <span class="badge ${badgeClass}">${a.type || 'Official'}</span>
+      </div>
+      <div style="font-family:'Barlow Condensed';font-size:1.1rem;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:14px;">${a.title || ''}</div>
+      <div style="font-size:0.83rem;color:var(--gray);line-height:1.7;margin-bottom:18px;">${a.summary || ''}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-family:'Barlow Condensed';font-size:0.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray2);border-top:1px solid rgba(201,168,76,0.08);padding-top:14px;">
+        <span>${a.source || 'White House'}</span>
+        <span style="display:flex;align-items:center;gap:12px;">
+          <span>${a.date || 'Recent'}</span>
+          ${a.url ? `<a href="${a.url}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;font-size:0.68rem;" onclick="event.stopPropagation()">Read →</a>` : ''}
+        </span>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ===== AI ANALYST =====
+async function askAI() {
+  const input = document.getElementById('ai-question');
+  const btn = document.getElementById('ai-btn');
+  const responseEl = document.getElementById('ai-response');
+  const q = input.value.trim();
+  if (!q) {
+    input.focus();
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Analyzing...';
+  responseEl.className = 'ai-response active';
+  responseEl.innerHTML = `<div class="ai-thinking">
+    <span>Intel Processing</span>
+    <div class="thinking-dots"><span></span><span></span><span></span></div>
+  </div>`;
+
+  try {
+    const res = await fetch("/api/claude", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        tools: [{ type: "web_search_20250305", name: "web_search" }],
+        system: `You are a highly knowledgeable US military analyst and advisor for "US Military Life" (@usmilitarylife). Today's date is ${new Date().toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'})}. You have access to web search — use it to find current, real information when asked about recent events, current deployments, or breaking news. You specialize in: US Armed Forces history and operations, military tactics and strategy, all 6 branches of the US military, veteran affairs and benefits, presidential defense policy, and current geopolitical/defense news. Respond in a clear, authoritative yet approachable tone. Use clean paragraphs. Keep responses informative and under 300 words. Always be respectful of service members and veterans. Start responses directly without preamble. When you find recent news, cite sources naturally.`,
+        messages: [{ role: "user", content: q }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content.map(i => i.text || '').join('');
+    responseEl.innerHTML = `<div style="margin-bottom:14px;font-family:'Barlow Condensed';font-size:0.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;"><span>🔍</span> Intel Analysis</div>` +
+      text.split('\n').filter(l => l.trim()).map(l => `<p>${l}</p>`).join('');
+  } catch(e) {
+    responseEl.innerHTML = `<p style="color:var(--red2);">⚠ Intelligence system temporarily offline. Please try again.</p>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Analyze ▶';
+}
+
+function quickAsk(q) {
+  document.getElementById('ai-question').value = q;
+  document.getElementById('intel').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(askAI, 400);
+}
+
+// ===== SCOOPZ LIVE FEED =====
+let scoopzTimer = null;
+
+async function refreshScoopzFeed() {
+  const feed = document.getElementById('scoopz-feed');
+  const btn = document.getElementById('scoopz-refresh-btn');
+  const statusText = document.getElementById('scoopz-status-text');
+
+  if (btn) btn.disabled = true;
+  if (statusText) statusText.textContent = 'Fetching...';
+  if (feed) feed.innerHTML = '<div class="scoopz-loading"><div class="thinking-dots"><span></span><span></span><span></span></div><span style="font-family:\'Barlow Condensed\';letter-spacing:2px;font-size:0.8rem;text-transform:uppercase;color:var(--gold);">Loading Latest Posts...</span></div>';
+
+  try {
+    const res = await fetch('/api/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        system: 'You are a social media feed generator for a Scoopz account called @usmilitarylife (US Military Life, based at Camp Pendleton, CA). Today is ' + new Date().toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'}) + '. Search the web for the latest US military news and activities. Then simulate what fresh Scoopz posts from @usmilitarylife would look like based on real current events. Return ONLY a JSON object (no markdown, no backticks) with exactly these fields: posts (array of 5 objects each with: title string, description string 1 sentence, emoji string, tag string like "Army" or "Breaking" or "Veterans", likes string like "1.2K", time string like "2h ago" or "Just now"), followers string like "15.4K", posts_count string like "142", views string like "1.3M+". Return JSON only.',
+        messages: [{ role: 'user', content: 'Search for the latest US military news from the past 24 hours, then generate a fresh @usmilitarylife Scoopz profile feed as JSON.' }]
+      })
+    });
+    const data = await res.json();
+    const text = (data.content || []).map(function(i) { return i.text || ''; }).join('');
+    let parsed;
+    try {
+      parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+    } catch(e) {
+      const match = text.match(/\{[\s\S]*\}/);
+      parsed = match ? JSON.parse(match[0]) : null;
+    }
+    if (parsed) renderScoopzFeed(parsed);
+    else throw new Error('Parse failed');
+  } catch(e) {
+    if (feed) feed.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);font-family:\'Barlow Condensed\';font-size:0.85rem;letter-spacing:1px;">⚠ Could not load feed. <button onclick="refreshScoopzFeed()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:\'Barlow Condensed\';font-size:0.85rem;letter-spacing:1px;text-decoration:underline;">Try again</button></div>';
+  }
+
+  if (btn) btn.disabled = false;
+  if (statusText) statusText.textContent = 'Live Feed';
+  const el = document.getElementById('scoopz-last-updated');
+  if (el) el.textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+function renderScoopzFeed(data) {
+  // Update stats
+  if (data.followers) document.getElementById('stat-followers').textContent = data.followers;
+  if (data.posts_count) document.getElementById('stat-posts').textContent = data.posts_count;
+  if (data.views) document.getElementById('stat-views').textContent = data.views;
+
+  const feed = document.getElementById('scoopz-feed');
+  if (!feed || !data.posts) return;
+
+  let html = '';
+  data.posts.forEach(function(p) {
+    html += '<div class="scoopz-post" onclick="window.open(\'https://thescoopz.com/@usmilitarylife\',\'_blank\')">';
+    html += '<div class="scoopz-post-icon">' + (p.emoji || '🪖') + '</div>';
+    html += '<div class="scoopz-post-content">';
+    html += '<div class="scoopz-post-title">' + (p.title || '') + '</div>';
+    html += '<div class="scoopz-post-desc">' + (p.description || '') + '</div>';
+    html += '<div class="scoopz-post-meta">';
+    html += '<span class="scoopz-post-tag">' + (p.tag || 'Military') + '</span>';
+    html += '<span class="likes">♥ ' + (p.likes || '0') + '</span>';
+    html += '<span>' + (p.time || 'Recent') + '</span>';
+    html += '</div></div></div>';
+  });
+  feed.innerHTML = html;
+}
+
+// Auto-refresh every 5 minutes
+function startScoopzAutoRefresh() {
+  refreshScoopzFeed();
+  scoopzTimer = setInterval(refreshScoopzFeed, 5 * 60 * 1000);
+}
+
+// ===== SCROLL REVEAL =====
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', function() {
+  fetchMilitaryNews('all');
+  fetchPresidentialNews();
+  startScoopzAutoRefresh();
+});
+</script>
+</body>
+</html>
